@@ -1,19 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:todo_app_with_flutter_and_firebase/models/model.dart';
+part 'todo.g.dart';
 
 @JsonSerializable(nullable: false)
-class Todo extends Model {
-  static CollectionReference _todoCollectionReference =
-      Model.db.collection("todo");
+class Todo {
+  //@JsonKey(name: 'uuid', nullable: false)
+  //String uuid;
 
-  @JsonKey(name: 'uuid', nullable: false)
-  String uuid;
-  
-  @JsonKey(name: "todoTitle", nullable: false)
+  @JsonKey(name: "todo_title", nullable: false)
   String todoTitle;
 
-  @JsonKey(name: "todoDescription", nullable: false)
+  @JsonKey(name: "todo_description", nullable: false)
   String todoDescription;
 
   @JsonKey(name: "status", nullable: false)
@@ -21,11 +17,8 @@ class Todo extends Model {
 
   Todo();
 
-  CollectionReference getCollectionRef() {
-    return _todoCollectionReference;
-  }
+  factory Todo.fromJson(Map<String, dynamic> data) => _$TodoFromJson(data);
 
-  String getID() {
-    return this.uuid;
-  }
+  Map<String,dynamic> toJson() => _$TodoToJson(this);
+
 }

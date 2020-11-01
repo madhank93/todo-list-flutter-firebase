@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_with_flutter_and_firebase/controllers/auth_controller.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/todo_list_screen.dart';
+import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
 
 class Authentication extends StatefulWidget {
   Authentication({Key key}) : super(key: key);
@@ -80,10 +80,9 @@ class _AuthenticationState extends State<Authentication> {
                     ),
                     child: Text("Login"),
                     onPressed: () async {
-                      bool shouldNavigate = await AuthController.register(
+                      bool shouldNavigate = await AuthService.login(
                           emailController.text, passwordController.text);
                       if (shouldNavigate) {
-                        print("Success");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -100,9 +99,10 @@ class _AuthenticationState extends State<Authentication> {
                     ),
                     child: Text("Signup"),
                     onPressed: () async {
-                      bool shouldNavigate = await AuthController.register(
+                      bool isRegistered = await AuthService.register(
                           emailController.text, passwordController.text);
-                      if (shouldNavigate) {
+                      if (isRegistered) {
+                        
                         Navigator.push(
                           context,
                           MaterialPageRoute(

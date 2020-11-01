@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthController {
+class AuthService {
 
   static Future<bool> login(String email, String password) async {
   try {
