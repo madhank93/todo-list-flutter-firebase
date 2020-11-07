@@ -11,24 +11,24 @@ class TodoListScreen extends StatefulWidget {
 class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Todo list"),
-      ),
-      body: SafeArea(
-        child: getTodoListBody(context),
-      ),
-      bottomNavigationBar: FloatingActionButton(
-        backgroundColor: Colors.orange,
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddTodo(),
-            ),
-          );
-        },
+    return SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          title: Text("Todo list"),
+        ),
+        body: getTodoListBody(context),
+        bottomNavigationBar: FloatingActionButton(
+          backgroundColor: Colors.orange,
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddTodo(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
