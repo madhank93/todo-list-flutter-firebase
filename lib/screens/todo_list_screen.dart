@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 
@@ -13,8 +12,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: getTodoListBody(context),
+      appBar: AppBar(
+        title: Text("Todo list"),
+      ),
+      body: SafeArea(
+        child: getTodoListBody(context),
+      ),
       bottomNavigationBar: FloatingActionButton(
         backgroundColor: Colors.orange,
         child: Icon(Icons.add),
@@ -36,24 +39,31 @@ class _TodoListScreenState extends State<TodoListScreen> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         Widget child;
         if (snapshot.hasError) {
-          child = Text('Something went wrong');
+          child = Text(
+            'Something went wrong',
+            style: TextStyle(color: Colors.white),
+          );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          child = Text("Loading");
+          child = Text(
+            "Loading",
+            style: TextStyle(color: Colors.white),
+          );
         } else if (snapshot.hasData) {
-          child = ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
+          child = ListView.builder(
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, index) {
               return ListTile(
                 title: Text(
-                  document.data()['todo_title'],
+                  snapshot.data.docs[index]['todo_title'],
                   style: TextStyle(color: Colors.white),
                   maxLines: 2,
                 ),
                 subtitle: Text(
-                  document.data()['todo_description'],
+                  snapshot.data.docs[index]['todo_description'],
                   maxLines: 3,
                 ),
               );
-            }).toList(),
+            },
           );
         }
         return child;
