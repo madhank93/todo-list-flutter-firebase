@@ -5,14 +5,20 @@ import 'package:todo_app_with_flutter_and_firebase/service/firebase_service.dart
 class TodoService extends FirebaseService {
   TodoService();
 
-  CollectionReference getCollectionRef() {
+  @override
+  CollectionReference getCollectionReference() {
     return FirebaseService.db
-        .collection("user")
+        .collection("users")
         .doc(Users().getID())
         .collection("todo");
   }
 
+  @override
+  String getID() {
+    return this.getCollectionReference().doc().id;
+  }
+
   Stream<QuerySnapshot> getTodoListOfCurrentUser() {
-    return getCollectionRef().snapshots();
+    return getCollectionReference().snapshots();
   }
 }

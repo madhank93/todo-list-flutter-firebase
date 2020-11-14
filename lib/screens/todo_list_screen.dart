@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/edit_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 
 class TodoListScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Text("Todo list"),
         ),
@@ -52,15 +54,43 @@ class _TodoListScreenState extends State<TodoListScreen> {
           child = ListView.builder(
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(
-                  snapshot.data.docs[index]['todo_title'],
-                  style: TextStyle(color: Colors.white),
-                  maxLines: 2,
-                ),
-                subtitle: Text(
-                  snapshot.data.docs[index]['todo_description'],
-                  maxLines: 3,
+              Todo todo = Todo.fromJson(snapshot.data.docs[index].data());
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditTodo(todo),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(
+                        todo.todoTitle,
+                        style: TextStyle(color: Colors.white),
+                        maxLines: 2,
+                      ),
+                      subtitle: Text(
+                        todo.todoDescription,
+                        maxLines: 3,
+                      ),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          todo.status
+                              ? Text(
+                                  "Completed",
+                                  style: TextStyle(color: Colors.greenAccent),
+                                )
+                              : Text("Pending",
+                                  style: TextStyle(color: Colors.redAccent)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               );
             },

@@ -3,8 +3,8 @@ part 'todo.g.dart';
 
 @JsonSerializable(nullable: false)
 class Todo {
-  //@JsonKey(name: 'uuid', nullable: false)
-  //String uuid;
+  @JsonKey(name: 'uuid', nullable: false)
+  String uuid;
 
   @JsonKey(name: "todo_title", nullable: false)
   String todoTitle;

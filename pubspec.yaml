@@ -31,6 +31,8 @@ dependencies:
   firebase_storage: ^4.0.1 # To handle Firebase storage (to store images,videos ...)
   cloud_firestore: ^0.14.1+1 # To handle Firebase NoSQL cloud database to store and sync data
   json_annotation: ^3.1.0 # Contains helper classes and function for JSON serializable
+  fluttertoast: ^7.1.1 # toast lib
+
 
 dev_dependencies:
   json_serializable: ^3.5.0 # To generate code for converting to and from JSON by annotating Dart classes
