@@ -28,7 +28,8 @@ class _EditTodoState extends State<EditTodo> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Add Todo"),
+          title: Text("Edit todo"),
+          actions: [IconButton(icon: Icon(Icons.edit), onPressed: () {})],
         ),
         body: Form(
           key: _formKey,
@@ -42,7 +43,7 @@ class _EditTodoState extends State<EditTodo> {
                   textAlign: TextAlign.start,
                   maxLines: 2,
                   autofocus: false,
-                  cursorColor: Colors.orange,
+                  cursorColor: Colors.blue,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -74,7 +75,7 @@ class _EditTodoState extends State<EditTodo> {
                   textAlign: TextAlign.start,
                   maxLines: 3,
                   autofocus: false,
-                  cursorColor: Colors.orange,
+                  cursorColor: Colors.blue,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),

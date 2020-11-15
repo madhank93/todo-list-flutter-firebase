@@ -30,7 +30,7 @@ class _AuthenticationState extends State<Authentication> {
                 obscureText: false,
                 textAlign: TextAlign.start,
                 autofocus: false,
-                cursorColor: Colors.orange,
+                cursorColor: Colors.blue,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -53,7 +53,7 @@ class _AuthenticationState extends State<Authentication> {
                 obscureText: true,
                 textAlign: TextAlign.start,
                 autofocus: false,
-                cursorColor: Colors.orange,
+                cursorColor: Colors.blue,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -91,7 +91,7 @@ class _AuthenticationState extends State<Authentication> {
                         );
                       }
                     },
-                    color: Colors.orange,
+                    color: Colors.blue,
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
@@ -111,7 +111,7 @@ class _AuthenticationState extends State<Authentication> {
                         );
                       }
                     },
-                    color: Colors.orange,
+                    color: Colors.blue,
                   ),
                 ],
               )

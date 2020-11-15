@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.black,
-        accentColor: Colors.orangeAccent,
+        accentColor: Colors.lightBlueAccent
       ),
       home: Authentication(),
     );

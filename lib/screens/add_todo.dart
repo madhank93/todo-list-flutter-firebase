@@ -23,7 +23,7 @@ class AddTodo extends StatelessWidget {
                 textAlign: TextAlign.start,
                 maxLines: 2,
                 autofocus: false,
-                cursorColor: Colors.orange,
+                cursorColor: Colors.blue,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -47,7 +47,7 @@ class AddTodo extends StatelessWidget {
                 textAlign: TextAlign.start,
                 maxLines: 3,
                 autofocus: false,
-                cursorColor: Colors.orange,
+                cursorColor: Colors.blue,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),

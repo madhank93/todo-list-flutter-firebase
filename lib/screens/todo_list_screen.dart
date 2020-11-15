@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
-import 'package:todo_app_with_flutter_and_firebase/screens/edit_todo.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/view_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 
 class TodoListScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
         ),
         body: getTodoListBody(context),
         bottomNavigationBar: FloatingActionButton(
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.blue,
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -62,7 +62,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditTodo(todo),
+                        builder: (context) => ViewTodo(todo),
                       ),
                     );
                   },
