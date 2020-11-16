@@ -12,19 +12,7 @@ class ViewTodo extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Todo detail screen"),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditTodo(todo),
-                    ),
-                  );
-                })
-          ],
+          title: Text("View todo"),
         ),
         body: SingleChildScrollView(
           child: Padding(

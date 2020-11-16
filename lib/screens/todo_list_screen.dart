@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/view_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
+
+import 'edit_todo.dart';
 
 class TodoListScreen extends StatefulWidget {
   @override
@@ -55,39 +58,66 @@ class _TodoListScreenState extends State<TodoListScreen> {
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
               Todo todo = Todo.fromJson(snapshot.data.docs[index].data());
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewTodo(todo),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        todo.todoTitle,
-                        style: TextStyle(color: Colors.white),
-                        maxLines: 2,
-                      ),
-                      subtitle: Text(
-                        todo.todoDescription,
-                        maxLines: 3,
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          todo.status
-                              ? Text(
-                                  "Completed",
-                                  style: TextStyle(color: Colors.greenAccent),
-                                )
-                              : Text("Pending",
-                                  style: TextStyle(color: Colors.redAccent)),
-                        ],
+              return Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                actions: [
+                  IconSlideAction(
+                    caption: 'Edit',
+                    color: Colors.blue,
+                    icon: Icons.edit,
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditTodo(todo),
+                        ),
+                      )
+                    },
+                  ),
+                ],
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () => {TodoService().deleteByID(todo.uuid)},
+                  ),
+                ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewTodo(todo),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                          todo.todoTitle,
+                          style: TextStyle(color: Colors.white),
+                          maxLines: 2,
+                        ),
+                        subtitle: Text(
+                          todo.todoDescription,
+                          maxLines: 3,
+                        ),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            todo.status
+                                ? Text(
+                                    "Completed",
+                                    style: TextStyle(color: Colors.greenAccent),
+                                  )
+                                : Text("Pending",
+                                    style: TextStyle(color: Colors.redAccent)),
+                          ],
+                        ),
                       ),
                     ),
                   ),

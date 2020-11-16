@@ -34,4 +34,8 @@ class FirebaseService {
     await this.getDocumentReference(documentUUID).update(data);
   }
 
+  deleteByID(String documentUUID) async{
+    await this.getDocumentReference(documentUUID).delete();
+  }
+
 }

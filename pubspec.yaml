@@ -32,6 +32,8 @@ dependencies:
   cloud_firestore: ^0.14.1+1 # To handle Firebase NoSQL cloud database to store and sync data
   json_annotation: ^3.1.0 # Contains helper classes and function for JSON serializable
   fluttertoast: ^7.1.1 # toast lib
+  flutter_slidable: ^0.5.7
+
 
 
 dev_dependencies:
