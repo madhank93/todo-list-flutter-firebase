@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/view_todo.dart';
@@ -14,25 +15,30 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
+  int backPressCounter = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Todo list"),
-        ),
-        body: getTodoListBody(context),
-        bottomNavigationBar: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddTodo(),
-              ),
-            );
-          },
+      child: WillPopScope(
+        onWillPop: onWillPop,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Todo list"),
+          ),
+          body: getTodoListBody(context),
+          bottomNavigationBar: FloatingActionButton(
+            backgroundColor: Colors.blue,
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddTodo(),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -129,5 +135,18 @@ class _TodoListScreenState extends State<TodoListScreen> {
         return child;
       },
     );
+  }
+
+  Future<bool> onWillPop() {
+    if (backPressCounter < 1) {
+      backPressCounter++;
+      Fluttertoast.showToast(msg: "Press again to exit !!!");
+      Future.delayed(Duration(seconds: 2, milliseconds: 0), () {
+        backPressCounter--;
+      });
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
   }
 }
