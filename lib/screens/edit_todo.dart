@@ -62,11 +62,11 @@ class _EditTodoState extends State<EditTodo> {
                     ),
                     validator: (title) {
                       if (title.isEmpty) {
-                        return "Must not be empty";
-                      } else {
+                        return "Please enter title";
+                      } else if (_title != title) {
                         this._title = title;
-                        return null;
                       }
+                      return null;
                     },
                   ),
                   SizedBox(
@@ -94,11 +94,11 @@ class _EditTodoState extends State<EditTodo> {
                     ),
                     validator: (description) {
                       if (description.isEmpty) {
-                        return "Must not be empty";
-                      } else {
+                        return "Please enter description";
+                      } else if (_description != description) {
                         this._description = description;
-                        return null;
                       }
+                      return null;
                     },
                   ),
                   SizedBox(
@@ -142,7 +142,6 @@ class _EditTodoState extends State<EditTodo> {
 
   submit(BuildContext context) {
     final FormState form = _formKey.currentState;
-
     if (form.validate()) {
       Todo todo = new Todo();
       todo.status = false;
