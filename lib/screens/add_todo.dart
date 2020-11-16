@@ -105,7 +105,6 @@ class AddTodo extends StatelessWidget {
 
   submit(BuildContext context) {
     Todo todo = new Todo();
-    //todo.uuid = "test";
     todo.status = false;
     todo.todoTitle = _title.text;
     todo.todoDescription = _description.text;

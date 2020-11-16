@@ -102,7 +102,6 @@ class _AuthenticationState extends State<Authentication> {
                       bool isRegistered = await AuthService.register(
                           emailController.text, passwordController.text);
                       if (isRegistered) {
-                        
                         Navigator.push(
                           context,
                           MaterialPageRoute(

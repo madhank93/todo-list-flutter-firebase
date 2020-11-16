@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
-import 'package:todo_app_with_flutter_and_firebase/screens/edit_todo.dart';
 
 class ViewTodo extends StatelessWidget {
   final Todo todo;
