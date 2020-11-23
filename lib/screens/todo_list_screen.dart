@@ -6,7 +6,6 @@ import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/view_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
-
 import 'edit_todo.dart';
 
 class TodoListScreen extends StatefulWidget {

@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
-  static Future<bool> login(String email, String password) async {
+  static final auth = FirebaseAuth.instance;
+  static User user = auth.currentUser;
+
+  // Sign-in process
+  static Future<bool> loginWithEmailAndPassword(
+      String email, String password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -36,7 +41,9 @@ class AuthService {
     }
   }
 
-  static Future<bool> register(String email, String password) async {
+  // Sign-up process
+  static Future<bool> registerWithEmailAndPassword(
+      String email, String password) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -74,5 +81,27 @@ class AuthService {
       );
       return false;
     }
+  }
+
+  // Send verification email process
+  static Future<void> sendEmailVerificationToRegisteredMail() async {
+    try {
+      await user.sendEmailVerification();
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Something went wrong.",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
+  }
+
+  //
+  static Future<void> checkEmailHasBeenVerified() async {
+    await user.reload();
+    user = auth.currentUser;
+    print(user.emailVerified);
+    
   }
 }

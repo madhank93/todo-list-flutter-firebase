@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/email_verification_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/todo_list_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
 
@@ -13,6 +14,8 @@ class _AuthenticationState extends State<Authentication> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isRegistered = false;
+  bool shouldNavigate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +98,11 @@ class _AuthenticationState extends State<Authentication> {
                       ),
                       child: Text("Login"),
                       onPressed: () async {
-                        bool shouldNavigate = false;
                         if (_formKey.currentState.validate()) {
-                          shouldNavigate = await AuthService.login(
-                              _emailController.text, _passwordController.text);
+                          shouldNavigate =
+                              await AuthService.loginWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text);
                         }
                         if (shouldNavigate) {
                           Navigator.pushAndRemoveUntil(
@@ -110,7 +114,7 @@ class _AuthenticationState extends State<Authentication> {
                           );
                         }
                       },
-                      color: Colors.blue,
+                      color: Colors.lightBlueAccent,
                     ),
                     RaisedButton(
                       shape: RoundedRectangleBorder(
@@ -118,18 +122,24 @@ class _AuthenticationState extends State<Authentication> {
                       ),
                       child: Text("Signup"),
                       onPressed: () async {
-                        bool isRegistered = await AuthService.register(
-                            _emailController.text, _passwordController.text);
+                        if (_formKey.currentState.validate()) {
+                          isRegistered =
+                              await AuthService.registerWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text);
+                        }
                         if (isRegistered) {
+                          await AuthService
+                              .sendEmailVerificationToRegisteredMail();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TodoListScreen(),
+                              builder: (context) => EmailVerificationScreen(),
                             ),
                           );
                         }
                       },
-                      color: Colors.blue,
+                      color: Colors.lightBlueAccent,
                     ),
                   ],
                 )
