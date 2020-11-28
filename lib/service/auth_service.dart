@@ -97,11 +97,13 @@ class AuthService {
     }
   }
 
-  //
-  static Future<void> checkEmailHasBeenVerified() async {
+  // Verifies user's email ID by checking email verification link has been clicked
+  static Future<bool> checkEmailHasBeenVerified() async {
     await user.reload();
     user = auth.currentUser;
-    print(user.emailVerified);
-    
+    if (user.emailVerified)
+      return true;
+    else
+      return false;
   }
 }

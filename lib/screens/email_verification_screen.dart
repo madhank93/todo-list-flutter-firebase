@@ -18,7 +18,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
-      await AuthService.checkEmailHasBeenVerified();
+      bool isLinkVerified = await AuthService.checkEmailHasBeenVerified();
+      if (isLinkVerified)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: null),
+        );
     });
   }
 
@@ -35,26 +40,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "An email has been sent to the address ${AuthService.user.email}",
+            "An email has been sent to the address ${AuthService.user.email} please click on the link to verify it.",
             textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
-
-  // Future<void> checkEmailHasBeenVerified() async {
-  //   User user = AuthService.user;
-  //   await user.reload();
-  //   print(user.emailVerified);
-  //   if (user.emailVerified) {
-  //     _timer.cancel();
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => TodoListScreen(),
-  //       ),
-  //     );
-  //   }
-  // }
 }
