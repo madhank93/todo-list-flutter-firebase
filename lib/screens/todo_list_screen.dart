@@ -58,7 +58,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
             "Loading",
             style: TextStyle(color: Colors.white),
           );
-        } else if (snapshot.hasData) {
+        } else if (snapshot.data.size == 0) {
+          child = Center(
+            child: Text("No Todo"),
+          );
+        } else if (snapshot.hasData && snapshot.data.size > 0) {
           child = ListView.builder(
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
