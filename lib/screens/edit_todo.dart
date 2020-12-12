@@ -15,6 +15,7 @@ class EditTodo extends StatefulWidget {
 class _EditTodoState extends State<EditTodo> {
   String _title = "";
   String _description = "";
+  bool _status;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -22,6 +23,7 @@ class _EditTodoState extends State<EditTodo> {
     super.initState();
     _title = widget.todo.todoTitle;
     _description = widget.todo.todoDescription;
+    _status = widget.todo.status;
   }
 
   @override
@@ -30,7 +32,6 @@ class _EditTodoState extends State<EditTodo> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Edit todo"),
-          actions: [IconButton(icon: Icon(Icons.edit), onPressed: () {})],
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -101,8 +102,24 @@ class _EditTodoState extends State<EditTodo> {
                       return null;
                     },
                   ),
-                  SizedBox(
-                    height: 20,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Row(
+                      children: [
+                        Text("Status :"),
+                        Switch(
+                          value: _status,
+                          onChanged: (value) {
+                            setState(() {
+                              _status = value;
+                            });
+                          },
+                          inactiveTrackColor: Colors.red,
+                          activeTrackColor: Colors.green,
+                          activeColor: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -115,8 +132,9 @@ class _EditTodoState extends State<EditTodo> {
                         ),
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.greenAccent)),
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.greenAccent),
+                        ),
                       ),
                       RaisedButton(
                         onPressed: () => Navigator.pop(context),
@@ -126,8 +144,9 @@ class _EditTodoState extends State<EditTodo> {
                         ),
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.redAccent)),
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.redAccent),
+                        ),
                       )
                     ],
                   ),
@@ -144,7 +163,7 @@ class _EditTodoState extends State<EditTodo> {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       Todo todo = new Todo();
-      todo.status = false;
+      todo.status = _status;
       todo.todoTitle = _title;
       todo.todoDescription = _description;
       TodoService().updateByID(todo.toJson(), widget.todo.uuid);

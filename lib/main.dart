@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app_with_flutter_and_firebase/screens/auth_screen.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/login_screen.dart';
 
 
 void main() async{
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.black,
         accentColor: Colors.lightBlueAccent
       ),
-      home: Authentication(),
+      home: LoginScreen(),
     );
   }
 }

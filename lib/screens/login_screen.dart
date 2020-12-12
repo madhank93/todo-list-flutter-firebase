@@ -1,18 +1,19 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app_with_flutter_and_firebase/screens/email_verification_screen.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/registration_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/todo_list_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
 import 'package:todo_app_with_flutter_and_firebase/widgets/custom_raised_button.dart';
 import 'package:todo_app_with_flutter_and_firebase/widgets/custom_text_field.dart';
 
-class Authentication extends StatefulWidget {
-  Authentication({Key key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
 
   @override
-  _AuthenticationState createState() => _AuthenticationState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _AuthenticationState extends State<Authentication> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -36,7 +37,7 @@ class _AuthenticationState extends State<Authentication> {
                 CustomTextField(
                   editingController: _emailController,
                   isObscure: false,
-                  labelText: "Email or Phone number",
+                  labelText: "Email",
                   textFieldValidator: emailValidation,
                 ),
                 SizedBox(
@@ -52,17 +53,35 @@ class _AuthenticationState extends State<Authentication> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomRaisedButton(
                       textLabel: "Login",
                       onPressedExecution: onLogin,
                     ),
-                    CustomRaisedButton(
-                      textLabel: "Signup",
-                      onPressedExecution: onSignup,
-                    )
                   ],
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: "Don't have an account ? ",
+                    children: [
+                      TextSpan(
+                        text: 'Signup',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegistrationScreen(),
+                                settings: RouteSettings(name: '/registration'),
+                              ),
+                            );
+                          },
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -98,22 +117,6 @@ class _AuthenticationState extends State<Authentication> {
           builder: (context) => TodoListScreen(),
         ),
         (Route<dynamic> route) => false,
-      );
-    }
-  }
-
-  void onSignup() async {
-    if (_formKey.currentState.validate()) {
-      isRegistered = await AuthService.registerWithEmailAndPassword(
-          _emailController.text, _passwordController.text);
-    }
-    if (isRegistered) {
-      await AuthService.sendEmailVerificationToRegisteredMail();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EmailVerificationScreen(),
-        ),
       );
     }
   }

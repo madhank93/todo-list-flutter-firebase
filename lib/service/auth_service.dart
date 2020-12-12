@@ -10,8 +10,7 @@ class AuthService {
   static Future<bool> loginWithEmailAndPassword(
       String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'invalid-email' || error.code == 'wrong-password') {
@@ -45,8 +44,8 @@ class AuthService {
   static Future<bool> registerWithEmailAndPassword(
       String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       return true;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {

@@ -39,14 +39,21 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "An email has been sent to the address ${AuthService.user.email} please click on the link to verify it.",
-              textAlign: TextAlign.center,
-            ),
+            Text.rich(
+              TextSpan(
+                  text: "An email has been sent to the address ",
+                  children: [
+                    TextSpan(
+                      text: "${AuthService.user.email}",
+                      style: TextStyle(color: Colors.lightBlueAccent),
+                    ),
+                    TextSpan(text: " please click on the link to verify it.")
+                  ]),
+            )
           ],
         ),
       ),

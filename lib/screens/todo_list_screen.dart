@@ -54,9 +54,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
             style: TextStyle(color: Colors.white),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          child = Text(
-            "Loading",
-            style: TextStyle(color: Colors.white),
+          child = Center(
+            child: Text(
+              "Loading",
+              style: TextStyle(color: Colors.white),
+            ),
           );
         } else if (snapshot.data.size == 0) {
           child = Center(
