@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/email_verification_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/todo_list_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
+import 'package:todo_app_with_flutter_and_firebase/widgets/custom_raised_button.dart';
+import 'package:todo_app_with_flutter_and_firebase/widgets/custom_text_field.dart';
 
 class Authentication extends StatefulWidget {
   Authentication({Key key}) : super(key: key);
@@ -31,60 +33,20 @@ class _AuthenticationState extends State<Authentication> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextFormField(
-                  controller: _emailController,
-                  obscureText: false,
-                  textAlign: TextAlign.start,
-                  autofocus: false,
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    labelText: "Email",
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    fillColor: Colors.black,
-                    filled: true,
-                    contentPadding: EdgeInsets.all(14),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter email';
-                    }
-                    return null;
-                  },
+                CustomTextField(
+                  editingController: _emailController,
+                  isObscure: false,
+                  labelText: "Email or Phone number",
+                  textFieldValidator: emailValidation,
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  textAlign: TextAlign.start,
-                  autofocus: false,
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    labelText: "Password",
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    fillColor: Colors.black,
-                    filled: true,
-                    contentPadding: EdgeInsets.all(14),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    return null;
-                  },
+                CustomTextField(
+                  editingController: _passwordController,
+                  isObscure: true,
+                  labelText: "Password",
+                  textFieldValidator: passwordValidation,
                 ),
                 SizedBox(
                   height: 20,
@@ -92,55 +54,14 @@ class _AuthenticationState extends State<Authentication> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Text("Login"),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          shouldNavigate =
-                              await AuthService.loginWithEmailAndPassword(
-                                  _emailController.text,
-                                  _passwordController.text);
-                        }
-                        if (shouldNavigate) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TodoListScreen(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        }
-                      },
-                      color: Colors.lightBlueAccent,
+                    CustomRaisedButton(
+                      textLabel: "Login",
+                      onPressedExecution: onLogin,
                     ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Text("Signup"),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          isRegistered =
-                              await AuthService.registerWithEmailAndPassword(
-                                  _emailController.text,
-                                  _passwordController.text);
-                        }
-                        if (isRegistered) {
-                          await AuthService
-                              .sendEmailVerificationToRegisteredMail();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EmailVerificationScreen(),
-                            ),
-                          );
-                        }
-                      },
-                      color: Colors.lightBlueAccent,
-                    ),
+                    CustomRaisedButton(
+                      textLabel: "Signup",
+                      onPressedExecution: onSignup,
+                    )
                   ],
                 )
               ],
@@ -149,5 +70,51 @@ class _AuthenticationState extends State<Authentication> {
         ),
       ),
     );
+  }
+
+  String emailValidation(String value) {
+    if (value.isEmpty) {
+      return 'Please enter email';
+    }
+    return null;
+  }
+
+  String passwordValidation(String value) {
+    if (value.isEmpty) {
+      return 'Please enter password';
+    }
+    return null;
+  }
+
+  void onLogin() async {
+    if (_formKey.currentState.validate()) {
+      shouldNavigate = await AuthService.loginWithEmailAndPassword(
+          _emailController.text, _passwordController.text);
+    }
+    if (shouldNavigate) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TodoListScreen(),
+        ),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  void onSignup() async {
+    if (_formKey.currentState.validate()) {
+      isRegistered = await AuthService.registerWithEmailAndPassword(
+          _emailController.text, _passwordController.text);
+    }
+    if (isRegistered) {
+      await AuthService.sendEmailVerificationToRegisteredMail();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmailVerificationScreen(),
+        ),
+      );
+    }
   }
 }
