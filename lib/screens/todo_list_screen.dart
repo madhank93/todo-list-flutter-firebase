@@ -62,7 +62,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
           );
         } else if (snapshot.data.size == 0) {
           child = Center(
-            child: Text("No Todo"),
+            child: Text("All TODOs are caught up"),
           );
         } else if (snapshot.hasData && snapshot.data.size > 0) {
           child = ListView.builder(

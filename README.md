@@ -1,16 +1,22 @@
-# todo_app_with_flutter_and_firebase
+#  Todo application
 
-A new Flutter project.
+In progress classic Todo application using flutter with firebase as the backend
 
-## Getting Started
+### App screens
 
-This project is a starting point for a Flutter application.
+| Login                   | Register                      | Email verification                                 |
+| ----------------------- | ----------------------------- | -------------------------------------------------- |
+| ![Login](doc/login.png) | ![Register](doc/register.png) | ![Email versification](doc/email_verification.png) |
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+| Empty Todo List                             | Todo List                       | Delete and Edit options                                    |
+| ------------------------------------------- | ------------------------------- | ---------------------------------------------------------- |
+| ![Empty Todo List](doc/empty_todo_list.png) | ![Todo List](doc/todo_list.png) | ![Delete and Edit options](doc/delete_and_edit_option.png) |
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Add Todo                      | View Todo                       | Edit Todo                       |
+| ----------------------------- | ------------------------------- | ------------------------------- |
+| ![Add Todo](doc/add_todo.png) | ![View Todo](doc/view_todo.png) | ![Edit Todo](doc/edit_todo.png) |
+
+| Todo List Status              |
+| ----------------------------- |
+| ![Add Todo](doc/todo_list_status.png) |
