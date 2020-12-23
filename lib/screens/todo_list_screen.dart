@@ -114,19 +114,22 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           maxLines: 2,
                         ),
                         subtitle: Text(
-                          todo.todoDescription,
+                          "",
+                          //todo.todoDescription,
                           maxLines: 3,
                         ),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            todo.status
-                                ? Text(
-                                    "Completed",
-                                    style: TextStyle(color: Colors.greenAccent),
-                                  )
-                                : Text("Pending",
-                                    style: TextStyle(color: Colors.redAccent)),
+                            // todo.status
+                            //     ? Text(
+                            //         "Completed",
+                            //         style: TextStyle(color: Colors.greenAccent),
+                            //       )
+                            //     : Text(
+                            //         "Pending",
+                            //         style: TextStyle(color: Colors.redAccent),
+                            //       ),
                           ],
                         ),
                       ),

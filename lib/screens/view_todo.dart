@@ -45,7 +45,7 @@ class ViewTodo extends StatelessWidget {
                 ),
                 TextFormField(
                   maxLines: null,
-                  initialValue: todo.todoDescription,
+                  //initialValue: todo.todoDescription,
                   obscureText: false,
                   readOnly: true,
                   textAlign: TextAlign.start,

@@ -22,8 +22,8 @@ class _EditTodoState extends State<EditTodo> {
   void initState() {
     super.initState();
     _title = widget.todo.todoTitle;
-    _description = widget.todo.todoDescription;
-    _status = widget.todo.status;
+    //_description = widget.todo.todoDescription;
+    //_status = widget.todo.status;
   }
 
   @override
@@ -163,9 +163,9 @@ class _EditTodoState extends State<EditTodo> {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       Todo todo = new Todo();
-      todo.status = _status;
+      //todo.status = _status;
       todo.todoTitle = _title;
-      todo.todoDescription = _description;
+      //todo.todoDescription = _description;
       TodoService().updateByID(todo.toJson(), widget.todo.uuid);
       Navigator.pop(context);
     }
