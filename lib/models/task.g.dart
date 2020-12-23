@@ -9,7 +9,7 @@ part of 'task.dart';
 Task _$TaskFromJson(Map<String, dynamic> json) {
   return Task()
     ..taskDescription = json['task_description'] as String
-    ..status = json['status'] as bool;
+    ..status = json['status'] as bool ?? false;
 }
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{

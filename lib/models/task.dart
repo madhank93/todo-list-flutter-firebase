@@ -6,7 +6,7 @@ class Task {
   @JsonKey(name: "task_description", nullable: false)
   String taskDescription;
 
-  @JsonKey(name: "status", nullable: false)
+  @JsonKey(name: "status", nullable: true, defaultValue: false)
   bool status;
 
   Task();
