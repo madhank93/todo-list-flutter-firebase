@@ -18,5 +18,5 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$TodoToJson(Todo instance) => <String, dynamic>{
       'uuid': instance.uuid,
       'todo_title': instance.todoTitle,
-      'task_list': instance.taskList,
+      'task_list': instance.taskList.map((e) => e.toJson()).toList(),
     };

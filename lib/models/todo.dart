@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/task.dart';
 part 'todo.g.dart';
 
-@JsonSerializable(nullable: false)
+@JsonSerializable(nullable: false, explicitToJson: true)
 class Todo {
   @JsonKey(name: 'uuid', nullable: false)
   String uuid;
