@@ -183,15 +183,18 @@ class _AddTodoState extends State<AddTodo> {
                                         ),
                                       ),
                                       IconButton(
-                                          icon: Icon(
-                                            Icons.delete_forever,
-                                            color: Colors.redAccent,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
+                                        icon: Icon(
+                                          Icons.delete_forever,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          setState(
+                                            () {
                                               _taskList.removeAt(index);
-                                            });
-                                          })
+                                            },
+                                          );
+                                        },
+                                      )
                                     ],
                                   ),
                                 );

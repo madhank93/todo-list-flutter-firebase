@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
-import 'package:todo_app_with_flutter_and_firebase/screens/view_todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 import 'edit_todo.dart';
 
@@ -15,6 +14,11 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   int backPressCounter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,79 +69,75 @@ class _TodoListScreenState extends State<TodoListScreen> {
             child: Text("All TODOs are caught up"),
           );
         } else if (snapshot.hasData && snapshot.data.size > 0) {
-          child = ListView.builder(
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, index) {
-              Todo todo = Todo.fromJson(snapshot.data.docs[index].data());
-              return Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                actions: [
-                  IconSlideAction(
-                    caption: 'Edit',
-                    color: Colors.blue,
-                    icon: Icons.edit,
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditTodo(todo),
-                        ),
-                      )
-                    },
-                  ),
-                ],
-                secondaryActions: <Widget>[
-                  IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () => {TodoService().deleteByID(todo.uuid)},
-                  ),
-                ],
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewTodo(todo),
-                        ),
-                      );
-                    },
+          child = Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                Todo todo = Todo.fromJson(snapshot.data.docs[index].data());
+                return Slidable(
+                  actionPane: SlidableDrawerActionPane(),
+                  actionExtentRatio: 0.25,
+                  actions: [
+                    IconSlideAction(
+                      caption: 'Edit',
+                      color: Colors.blue,
+                      icon: Icons.edit,
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditTodo(todo),
+                          ),
+                        )
+                      },
+                    ),
+                  ],
+                  secondaryActions: <Widget>[
+                    IconSlideAction(
+                      caption: 'Delete',
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () => {TodoService().deleteByID(todo.uuid)},
+                    ),
+                  ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Card(
-                      child: ListTile(
+                      child: ExpansionTile(
                         title: Text(
                           todo.todoTitle,
                           style: TextStyle(color: Colors.white),
                           maxLines: 2,
                         ),
-                        subtitle: Text(
-                          "",
-                          //todo.todoDescription,
-                          maxLines: 3,
-                        ),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // todo.status
-                            //     ? Text(
-                            //         "Completed",
-                            //         style: TextStyle(color: Colors.greenAccent),
-                            //       )
-                            //     : Text(
-                            //         "Pending",
-                            //         style: TextStyle(color: Colors.redAccent),
-                            //       ),
-                          ],
-                        ),
+                        children: todo.taskList
+                            .asMap()
+                            .entries
+                            .map(
+                              (task) => CheckboxListTile(
+                                contentPadding: EdgeInsets.only(left: 30),
+                                value: task.value.status,
+                                title: Text(task.value.taskDescription),
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(
+                                    () {
+                                      task.value.status = value;
+                                      TodoService()
+                                          .updateByID(todo.toJson(), todo.uuid);
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                            .toList(),
+                        trailing: Icon(Icons.keyboard_arrow_down),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         }
         return child;
