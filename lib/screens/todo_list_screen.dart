@@ -63,9 +63,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         Widget child;
         if (snapshot.hasError) {
-          child = Text(
-            'Something went wrong',
-            style: TextStyle(color: Colors.white),
+          child = Center(
+            child: Text(
+              'Something went wrong',
+              style: TextStyle(color: Colors.white),
+            ),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           child = Center(

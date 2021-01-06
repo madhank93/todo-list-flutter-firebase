@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todo_app_with_flutter_and_firebase/models/task.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 
@@ -13,17 +14,15 @@ class EditTodo extends StatefulWidget {
 }
 
 class _EditTodoState extends State<EditTodo> {
-  String _title = "";
-  String _description = "";
-  bool _status;
+  String _title;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  List<Task> _taskList;
 
   @override
   void initState() {
     super.initState();
     _title = widget.todo.todoTitle;
-    //_description = widget.todo.todoDescription;
-    //_status = widget.todo.status;
+    _taskList = widget.todo.taskList;
   }
 
   @override
@@ -32,6 +31,24 @@ class _EditTodoState extends State<EditTodo> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Edit todo"),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.save,
+                size: 35,
+              ),
+              color: Colors.greenAccent,
+              onPressed: () => submit(context),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.cancel,
+                size: 35,
+              ),
+              color: Colors.redAccent,
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -61,11 +78,16 @@ class _EditTodoState extends State<EditTodo> {
                       filled: true,
                       contentPadding: EdgeInsets.all(14),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        _title = value;
+                      });
+                    },
                     validator: (title) {
                       if (title.isEmpty) {
                         return "Please enter title";
                       } else if (_title != title) {
-                        this._title = title;
+                        _title = title;
                       }
                       return null;
                     },
@@ -73,83 +95,106 @@ class _EditTodoState extends State<EditTodo> {
                   SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    initialValue: _description,
-                    obscureText: false,
-                    textAlign: TextAlign.start,
-                    maxLines: null,
-                    autofocus: false,
-                    cursorColor: Colors.blue,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      labelText: "Description",
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      fillColor: Colors.black,
-                      filled: true,
-                      contentPadding: EdgeInsets.all(14),
-                    ),
-                    validator: (description) {
-                      if (description.isEmpty) {
-                        return "Please enter description";
-                      } else if (_description != description) {
-                        this._description = description;
-                      }
-                      return null;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Row(
-                      children: [
-                        Text("Status :"),
-                        Switch(
-                          value: _status,
+                  _taskList.length == 1
+                      ? TextFormField(
+                          initialValue: _taskList[0].taskDescription,
+                          obscureText: false,
+                          textAlign: TextAlign.start,
+                          maxLines: null,
+                          autofocus: false,
+                          cursorColor: Colors.blue,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            labelText: "Task 1",
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.black,
+                            filled: true,
+                            contentPadding: EdgeInsets.all(14),
+                          ),
                           onChanged: (value) {
                             setState(() {
-                              _status = value;
+                              _taskList[0].taskDescription = value;
                             });
                           },
-                          inactiveTrackColor: Colors.red,
-                          activeTrackColor: Colors.green,
-                          activeColor: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      RaisedButton(
-                        onPressed: () => submit(context),
-                        child: Text(
-                          "Save",
-                          style: TextStyle(color: Colors.greenAccent),
-                        ),
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.greenAccent),
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.redAccent),
-                        ),
-                      )
-                    ],
-                  ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter task';
+                            }
+                            return null;
+                          },
+                        )
+                      : _taskList.length > 1
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: _taskList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Task _task = _taskList[index];
+                                return Padding(
+                                  key: ObjectKey(_task),
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: TextFormField(
+                                          initialValue:
+                                              _taskList[index].taskDescription,
+                                          obscureText: false,
+                                          textAlign: TextAlign.start,
+                                          maxLines: null,
+                                          autofocus: false,
+                                          cursorColor: Colors.blue,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                style: BorderStyle.none,
+                                              ),
+                                            ),
+                                            labelText: "Task ${index + 1}",
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.always,
+                                            fillColor: Colors.black,
+                                            filled: true,
+                                            contentPadding: EdgeInsets.all(14),
+                                          ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Please enter task';
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            _taskList[index].taskDescription =
+                                                value;
+                                          },
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.delete_forever,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          setState(
+                                            () {
+                                              _taskList.removeAt(index);
+                                            },
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
                 ],
               ),
             ),
@@ -160,12 +205,10 @@ class _EditTodoState extends State<EditTodo> {
   }
 
   submit(BuildContext context) {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
+    if (_formKey.currentState.validate()) {
       Todo todo = new Todo();
-      //todo.status = _status;
       todo.todoTitle = _title;
-      //todo.todoDescription = _description;
+      todo.taskList = _taskList;
       TodoService().updateByID(todo.toJson(), widget.todo.uuid);
       Navigator.pop(context);
     }
