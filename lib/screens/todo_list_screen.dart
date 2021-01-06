@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/screens/add_todo.dart';
+import 'package:todo_app_with_flutter_and_firebase/screens/login_screen.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
 import 'edit_todo.dart';
@@ -35,7 +36,16 @@ class _TodoListScreenState extends State<TodoListScreen> {
                   Icons.login,
                   color: Colors.redAccent,
                 ),
-                onPressed: () => AuthService.logout(),
+                onPressed: () {
+                  AuthService.logout();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                },
               )
             ],
           ),
