@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/task.dart';
 import 'package:todo_app_with_flutter_and_firebase/models/todo.dart';
 import 'package:todo_app_with_flutter_and_firebase/service/todo_service.dart';
@@ -29,6 +30,23 @@ class _EditTodoState extends State<EditTodo> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.blue,
+          label: Text("Add Task"),
+          icon: Icon(Icons.add),
+          onPressed: () {
+            if (_taskList.last.taskDescription == null ||
+                _taskList.last.taskDescription.isEmpty) {
+              Fluttertoast.showToast(msg: "Please enter task");
+            } else {
+              setState(
+                () {
+                  _taskList.add(Task.fromJson({}));
+                },
+              );
+            }
+          },
+        ),
         appBar: AppBar(
           title: Text("Edit todo"),
           actions: [

@@ -26,9 +26,10 @@ class _AddTodoState extends State<AddTodo> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.lightBlueAccent,
-          child: Icon(Icons.add, color: Colors.white),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.blue,
+          label: Text("Add Task"),
+          icon: Icon(Icons.add),
           onPressed: () {
             if (_taskList.last.taskDescription == null ||
                 _taskList.last.taskDescription.isEmpty) {
