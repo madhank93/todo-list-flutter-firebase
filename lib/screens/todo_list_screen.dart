@@ -16,6 +16,7 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   int backPressCounter = 0;
+  int selectedExpansionTile = -1;
 
   @override
   void initState() {
@@ -127,6 +128,17 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Card(
                       child: ExpansionTile(
+                        initiallyExpanded: index == selectedExpansionTile,
+                        onExpansionChanged: ((newState) {
+                          if (newState)
+                            setState(() {
+                              selectedExpansionTile = index;
+                            });
+                          else
+                            setState(() {
+                              selectedExpansionTile = -1;
+                            });
+                        }),
                         title: Text(
                           todo.todoTitle,
                           style: TextStyle(color: Colors.white),
