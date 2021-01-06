@@ -51,9 +51,10 @@ class _TodoListScreenState extends State<TodoListScreen> {
             ],
           ),
           body: getTodoListBody(context),
-          bottomNavigationBar: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.extended(
             backgroundColor: Colors.blue,
-            child: Icon(Icons.add),
+            label: Text("Add Todo"),
+            icon: Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
@@ -139,6 +140,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                               selectedExpansionTile = -1;
                             });
                         }),
+                        leading: Icon(Icons.fiber_manual_record),
                         title: Text(
                           todo.todoTitle,
                           style: TextStyle(color: Colors.white),
