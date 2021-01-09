@@ -106,17 +106,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onLogin() async {
-    if (_formKey.currentState.validate()) {
-      shouldNavigate = await AuthService.loginWithEmailAndPassword(
-          _emailController.text, _passwordController.text);
+    if (!_formKey.currentState.validate()) {
+      return;
     }
+    shouldNavigate = await AuthService.loginWithEmailAndPassword(_emailController.text, _passwordController.text);
     if (shouldNavigate) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => TodoListScreen(),
         ),
-        (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false
       );
     }
   }
