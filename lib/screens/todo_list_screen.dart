@@ -155,7 +155,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
                                 value: task.value.status,
                                 title: Text(task.value.taskDescription),
                                 onChanged: (value) {
-                                  print(value);
                                   setState(
                                     () {
                                       task.value.status = value;
