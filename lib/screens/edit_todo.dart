@@ -96,13 +96,8 @@ class _EditTodoState extends State<EditTodo> {
                       filled: true,
                       contentPadding: EdgeInsets.all(14),
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _title = value;
-                      });
-                    },
                     validator: (title) {
-                      if (title.isEmpty) {
+                      if (title.trim().isEmpty) {
                         return "Please enter title";
                       } else if (_title != title) {
                         _title = title;
@@ -140,7 +135,7 @@ class _EditTodoState extends State<EditTodo> {
                             });
                           },
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value.trim().isEmpty) {
                               return 'Please enter task';
                             }
                             return null;
@@ -183,7 +178,7 @@ class _EditTodoState extends State<EditTodo> {
                                             contentPadding: EdgeInsets.all(14),
                                           ),
                                           validator: (value) {
-                                            if (value.isEmpty) {
+                                            if (value.trim().isEmpty) {
                                               return 'Please enter task';
                                             }
                                             return null;

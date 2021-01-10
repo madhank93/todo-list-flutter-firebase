@@ -32,7 +32,7 @@ class _AddTodoState extends State<AddTodo> {
           icon: Icon(Icons.add),
           onPressed: () {
             if (_taskList.last.taskDescription == null ||
-                _taskList.last.taskDescription.isEmpty) {
+                _taskList.last.taskDescription.trim().isEmpty) {
               Fluttertoast.showToast(msg: "Please enter task");
             } else {
               setState(
@@ -93,7 +93,7 @@ class _AddTodoState extends State<AddTodo> {
                       contentPadding: EdgeInsets.all(14),
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value.trim().isEmpty) {
                         return 'Please enter title';
                       }
                       return null;
@@ -129,7 +129,7 @@ class _AddTodoState extends State<AddTodo> {
                             });
                           },
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value.trim().isEmpty) {
                               return 'Please enter task';
                             }
                             return null;
@@ -172,7 +172,7 @@ class _AddTodoState extends State<AddTodo> {
                                             contentPadding: EdgeInsets.all(14),
                                           ),
                                           validator: (value) {
-                                            if (value.isEmpty) {
+                                            if (value.trim().isEmpty) {
                                               return 'Please enter task';
                                             }
                                             return null;

@@ -112,16 +112,19 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     Loader.showLoadingDialog(context, _loaderKey);
-    shouldNavigate = await AuthService.loginWithEmailAndPassword(_emailController.text, _passwordController.text);
+    shouldNavigate = await AuthService.loginWithEmailAndPassword(
+        _emailController.text, _passwordController.text);
     if (shouldNavigate) {
       Navigator.of(_loaderKey.currentContext, rootNavigator: true).pop();
       Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TodoListScreen(),
-        ),
-        (Route<dynamic> route) => false
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => TodoListScreen(),
+            settings: RouteSettings(name: '/todo_list'),
+          ),
+          (Route<dynamic> route) => false);
+    } else {
+      Navigator.of(_loaderKey.currentContext, rootNavigator: true).pop();
     }
   }
 }

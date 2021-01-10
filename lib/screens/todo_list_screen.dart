@@ -43,6 +43,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => LoginScreen(),
+                      settings: RouteSettings(name: '/login'),
                     ),
                     (Route<dynamic> route) => false,
                   );
@@ -60,6 +61,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => AddTodo(),
+                  settings: RouteSettings(name: '/add_todo'),
                 ),
               );
             },
