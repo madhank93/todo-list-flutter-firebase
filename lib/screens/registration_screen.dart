@@ -105,10 +105,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   void onSignup() async {
-    if (_formKey.currentState.validate()) {
-      isRegistered = await AuthService.registerWithEmailAndPassword(
-          _emailController.text, _passwordController.text);
+    if (!_formKey.currentState.validate()) {
+      return;
     }
+    isRegistered = await AuthService.registerWithEmailAndPassword(_emailController.text, _passwordController.text);
     if (isRegistered) {
       await AuthService.sendEmailVerificationToRegisteredMail();
       Navigator.push(

@@ -17,25 +17,25 @@ class FirebaseService {
   }
 
   add(Map<String, dynamic> data) async {
-    String id = this.getID();
+    String id = getID();
     data['uuid'] = id;
     data['created_at'] = DateTime.now();
-    await this.getCollectionReference().doc(id).set(data);
+    await getCollectionReference().doc(id).set(data);
   }
 
   update(Map<String, dynamic> data) async {
     data['updated_at'] = DateTime.now();
-    await this.getDocumentReference(this.getID()).update(data);
+    await getDocumentReference(getID()).update(data);
   }
 
   updateByID(Map<String, dynamic> data, String documentUUID) async {
     data['updated_at'] = DateTime.now();
     data['uuid'] = documentUUID;
-    await this.getDocumentReference(documentUUID).update(data);
+    await getDocumentReference(documentUUID).update(data);
   }
 
   deleteByID(String documentUUID) async{
-    await this.getDocumentReference(documentUUID).delete();
+    await getDocumentReference(documentUUID).delete();
   }
 
 }

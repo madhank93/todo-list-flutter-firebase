@@ -46,3 +46,9 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Ignore Android keys
+key.jks
+key.properties
+service_account_key.json
+android_keys.zip
