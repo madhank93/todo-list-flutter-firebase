@@ -5,6 +5,7 @@ import 'package:todo_app_with_flutter_and_firebase/screens/todo_list_screen.dart
 import 'package:todo_app_with_flutter_and_firebase/service/auth_service.dart';
 import 'package:todo_app_with_flutter_and_firebase/widgets/custom_raised_button.dart';
 import 'package:todo_app_with_flutter_and_firebase/widgets/custom_text_field.dart';
+import 'package:todo_app_with_flutter_and_firebase/widgets/loader.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isRegistered = false;
   bool shouldNavigate = false;
+  final GlobalKey<State> _loaderKey = new GlobalKey<State>();
 
   @override
   Widget build(BuildContext context) {
@@ -106,18 +108,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onLogin() async {
-    if (_formKey.currentState.validate()) {
-      shouldNavigate = await AuthService.loginWithEmailAndPassword(
-          _emailController.text, _passwordController.text);
+    if (!_formKey.currentState.validate()) {
+      return;
     }
+    Loader.showLoadingDialog(context, _loaderKey);
+    shouldNavigate = await AuthService.loginWithEmailAndPassword(
+        _emailController.text, _passwordController.text);
     if (shouldNavigate) {
+      Navigator.of(_loaderKey.currentContext, rootNavigator: true).pop();
       Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TodoListScreen(),
-        ),
-        (Route<dynamic> route) => false,
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => TodoListScreen(),
+            settings: RouteSettings(name: '/todo_list'),
+          ),
+          (Route<dynamic> route) => false);
+    } else {
+      Navigator.of(_loaderKey.currentContext, rootNavigator: true).pop();
     }
   }
 }

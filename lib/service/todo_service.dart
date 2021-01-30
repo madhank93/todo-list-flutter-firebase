@@ -15,7 +15,7 @@ class TodoService extends FirebaseService {
 
   @override
   String getID() {
-    return this.getCollectionReference().doc().id;
+    return getCollectionReference().doc().id;
   }
 
   Stream<QuerySnapshot> getTodoListOfCurrentUser() {

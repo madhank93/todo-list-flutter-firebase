@@ -105,4 +105,9 @@ class AuthService {
     else
       return false;
   }
+
+  static Future<void> logout () async{
+    return auth.signOut();
+  }
+
 }
