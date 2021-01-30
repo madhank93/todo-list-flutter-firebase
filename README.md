@@ -6,6 +6,7 @@ In progress classic Todo application using flutter with firebase as the backend
 
     * Signin feature
     * Signup feature
+    * Sign-out feature
     * Email verification
 
 ### Firebase Firestore
