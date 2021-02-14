@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:303409005065:android:238b8b4d52cc05ec856ed8",
+        "mobilesdk_app_id": "1:303409005065:android:c736276f89907d35856ed8",
         "android_client_info": {
-          "package_name": "com.example.todo_app_with_flutter_and_firebase"
+          "package_name": "io.madhank93.todo_app_with_flutter_and_firebase"
         }
       },
       "oauth_client": [
