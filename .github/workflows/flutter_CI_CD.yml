@@ -24,20 +24,6 @@ jobs:
         with:
           flutter-version: 1.22.5
 
-      - uses: r0adkll/sign-android-release@v1
-        name: Sign app APK
-        # ID used to access action output
-        id: sign_app
-        with:
-          releaseDirectory: build/app/outputs/apk/release/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          # override default build-tools version (29.0.3) -- optional
-          BUILD_TOOLS_VERSION: "30.0.2"
-
       - name: Install Flutter dependencies
         run: flutter pub get
 
@@ -52,6 +38,20 @@ jobs:
 
       - name: Build the app bundle
         run:  flutter build appbundle --release
+
+      - uses: r0adkll/sign-android-release@v1
+        name: Sign app APK
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: build/app/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          # override default build-tools version (29.0.3) -- optional
+          BUILD_TOOLS_VERSION: "30.0.2"
 
       - uses: actions/upload-artifact@v2
         with:
